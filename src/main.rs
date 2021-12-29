@@ -10,7 +10,7 @@ use actix_session::CookieSession;
 use fluffy::db;
 
 use std::time::{Duration, Instant};
-
+use actix_rt;
 use actix::*;
 use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer, middleware};
 use actix_web_actors::ws;

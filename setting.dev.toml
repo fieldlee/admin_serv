@@ -3,11 +3,11 @@ host = "0.0.0.0"
 port = 18081
 
 [database]
-host = "106.14.68.253"
-name = "honeyworld"
+host = "127.0.0.1"
+name = "rust_admin"
 user = "root"
-password = "honeyworld"
-port = 13306
+password = "123456"
+port = 3306
 
 [oss]
 access_key_id = ""
