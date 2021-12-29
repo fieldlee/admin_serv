@@ -22,6 +22,7 @@ mod models;
 mod controllers;
 mod validations;
 mod filters;
+mod utils;
 use controllers::{index::Index};
 
 #[actix_rt::main]
@@ -54,6 +55,7 @@ async fn main()-> std::io::Result<()> {
         .service(Files::new("/upload", "public/upload/"))
         .service(web::resource("/test").to(Index::test))
         .service(get!("/", Index::index))
+
     })
     .bind(host_port)?
     .run()

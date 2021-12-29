@@ -892,6 +892,7 @@ dependencies = [
  "fluffy",
  "futures 0.3.19",
  "lazy_static",
+ "md5",
  "mysql",
  "oss",
  "rand 0.8.4",
