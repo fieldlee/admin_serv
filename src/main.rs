@@ -16,7 +16,8 @@ use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer, middlewa
 use actix_web_actors::ws;
 
 mod config;
-
+mod controllers;
+use controllers::{index::Index};
 
 #[actix_rt::main]
 async fn main()-> std::io::Result<()> {
@@ -32,8 +33,11 @@ async fn main()-> std::io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
+        .wrap(CookieSession::signed(&[0; 32]).secure(false))
+        .wrap(middleware::Logger::default())
         .service(Files::new("/static", "public/static/"))
         .service(Files::new("/upload", "public/upload/"))
+        .service(web::resource("/test").to(Index::test))
     })
     .bind(host_port)?
     .run()
