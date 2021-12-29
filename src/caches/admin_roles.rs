@@ -1,7 +1,7 @@
 use fluffy::{model::{Model}, db};
 use std::collections::HashMap;
 use std::sync::Mutex;
-use crate::models::{AdminRoles, Menus, MainMenu};
+use crate::models::{AdminRoles,Menus, MainMenu};
 use regex::Regex;
 
 lazy_static! { 

@@ -21,8 +21,8 @@ pub trait Validation {
     }
 }
 
-impl Validator {
-    pub fn load (data :& HashMap<String,String>)->Self{
+impl <'a> Validator <'a> {
+    pub fn load (data :&'a HashMap<String,String>)->Self{
         Self { 
             errors: vec![],
             data: data,

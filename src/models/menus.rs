@@ -38,9 +38,7 @@ impl Model for Menus {
 }
 
 impl ModelBackend for Menus { 
-
     type M = Self;
-    
     get_fields!(Self, [
         parent_id => usize,
         name => String,

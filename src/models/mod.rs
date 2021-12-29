@@ -3,7 +3,7 @@ use std::default::Default;
 use std::fmt::Debug;
 use fluffy::{ db, DbRow, Pager, model::Model, cond_builder::CondBuilder };
 use serde::ser::Serialize;
-use actix_web::{HttpRequest};
+use actix_web::HttpRequest;
 
 #[derive(Debug, Default)]
 pub struct DataGrid<M: Model + Serialize> { 
@@ -36,12 +36,32 @@ pub struct OSSResult<'a> {
     pub data: OSSData<'a>,
 }
 
+#[macro_export]
+macro_rules! get_fields {
+    ($struct: ident, [$($field: ident => $type: ident,)+]) => {
+        
+        /// 得到所有列表字段
+        fn get_fields() -> &'static str { 
+            concat!("id", $(",", stringify!($field)),+)
+        }
+    
+        /// 得到单条记录
+        fn get_record(r: DbRow) -> Self { 
+            let mut row = Self::default();
+            let (id, $($field),+): (usize, $($type),+) = from_row!(r);
+            row.id = id;
+            $(row.$field = $field;)+
+            row
+        }
+    }
+}
+
 pub trait ModelBackend: Model { 
     /// 模型
     type M: Model + Serialize + Default + Debug;
-    /// 得到要從資料庫中提取的列頭
+    /// 读取表头
     fn get_fields() -> &'static str;
-    /// 得到單條記錄
+    /// 读取记录
     fn get_record(_: DbRow) -> Self::M;
     /// 保存到数据库之前的处理
     fn save_before(_data: &mut HashMap<String, String>) {}
@@ -95,7 +115,7 @@ pub use video_categories::{VideoCategories};
 pub use video_replies::VideoReplies;
 pub use users::Users;
 pub use user_levels::UserLevels;
-pub use video_tags::{VideoTags};
+pub use video_tags::VideoTags;
 pub use watch_records::WatchRecords;
 pub use ads::Ads;
 pub use index::Index;

@@ -3,6 +3,13 @@ use std::io::prelude::*;
 use serde_derive::Deserialize;
 use std::env;
 
+/// 最多允許登錄出錯次數
+pub const LOGIN_ERROR_MAX: usize = 1000;
+/// 登录失败后锁定时间
+pub const LOGIN_LOCKED_TIME: usize = 3600;
+/// 允许上传的图片类型
+pub const UPLOAD_IMAGE_TYPES: [&'static str; 6] = ["image/jpg", "image/png", "image/jpeg", "image/bmp", "image/gif", "image/webp"];
+
 
 macro_rules! get_setting_from_toml {
     ($struct: ident) => ({

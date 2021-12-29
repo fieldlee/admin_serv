@@ -1,6 +1,7 @@
 use fluffy::{DbRow, model::Model};
 use super::ModelBackend;
 use crate::validations::Validator;
+use std::collections::HashMap;
 
 #[derive(Default, Debug, Serialize)]
 pub struct AdminRoles { 
@@ -19,7 +20,7 @@ impl Model for AdminRoles {
 
 impl ModelBackend for AdminRoles {
     type M = Self;
-    
+
     get_fields!(Self,[
         name => String,
         remark => String,
@@ -27,7 +28,7 @@ impl ModelBackend for AdminRoles {
         menu_ids => String,
     ]);
 
-    fn validate(_data: &HashMap<String, String>)->Result((),String){
+    fn validate(_data: &HashMap<String, String>)->Result<(),String>{
         Validator::load(&_data)
         .is_numeric("seq","排序必须是有效的数字")
         .string_length("name","分类名称必须在2-20之间",2,10,true)
