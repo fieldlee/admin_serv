@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::sync::Mutex;
-use fluffy::{model::Db, db};
+use crate::data::{model::Db, db};
 use crate::config;
 
 /// 状态说明

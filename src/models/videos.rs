@@ -1,4 +1,4 @@
-use fluffy::{DbRow, model::Model,};
+use crate::data::{model::Model,};
 use super::ModelBackend;
 use serde_derive::{Serialize};
 use crate::validations::Validator;

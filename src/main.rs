@@ -1,19 +1,13 @@
 #[macro_use]
-extern crate fluffy;
-#[macro_use]
 extern crate lazy_static;
 #[macro_use]
 extern crate serde_json;
 
 use actix_files::Files;
 use actix_session::CookieSession;
-use fluffy::db;
-
 use std::time::{Duration, Instant};
-use actix_rt;
-use actix::*;
 use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer, middleware};
-use actix_web_actors::ws;
+
 
 mod config;
 mod common;
@@ -22,10 +16,14 @@ mod models;
 mod controllers;
 mod validations;
 mod filters;
+#[macro_use]
 mod utils;
+#[macro_use]
+mod data;
+
 use controllers::{index::Index};
 
-#[actix_rt::main]
+#[actix_web::main]
 async fn main()-> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=info"); //正式环境可以注释此行 ***
     env_logger::init(); //正式环境可以注释此行 ***
@@ -33,7 +31,7 @@ async fn main()-> std::io::Result<()> {
     let setting = &*config::SETTING;
     let info = &setting.app;
     let conn_string = config::get_conn_string();
-    db::init_connections(&conn_string); //初始化
+    data::db::init_connections(&conn_string); //初始化
     let host_port = &format!("{}:{}", &info.host, &info.port); //地址/端口
     println!("Started At: {}", host_port);
 
@@ -53,8 +51,8 @@ async fn main()-> std::io::Result<()> {
         .wrap(middleware::Logger::default())
         .service(Files::new("/static", "public/static/"))
         .service(Files::new("/upload", "public/upload/"))
-        .service(web::resource("/test").to(Index::test))
-        .service(get!("/", Index::index))
+        .service(get!("/test",Index::test))
+        .service(get!("/",Index::index))
 
     })
     .bind(host_port)?

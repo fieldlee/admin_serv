@@ -1,8 +1,10 @@
-use fluffy::{DbRow, model::Model, random, utils};
+
 use super::ModelBackend;
 use serde_derive::{Serialize};
 use crate::validations::Validator;
 use std::collections::HashMap;
+use crate::data::model::Model;
+use crate::utils::{util,random};
 
 #[derive(Default, Debug, Serialize)]
 pub struct Admins { 
@@ -40,7 +42,7 @@ impl ModelBackend for Admins {
     fn save_before(data: &mut HashMap<String, String>) { 
         if let Some(v) = data.get("password") {  //如果提交的有密码
             let secret = random::rand_str(32);
-            let password = utils::get_password(&secret, v);
+            let password = util::get_password(&secret, v);
             data.insert("password".to_owned(), password);
             data.insert("secret".to_owned(), secret);
         }

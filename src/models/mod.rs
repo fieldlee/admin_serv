@@ -1,9 +1,11 @@
 use std::collections::HashMap;
 use std::default::Default;
 use std::fmt::Debug;
-use fluffy::{ db, DbRow, Pager, model::Model, cond_builder::CondBuilder };
-use serde::ser::Serialize;
 use actix_web::HttpRequest;
+use crate::data::{model::Model,Pager,DbRow,db,cond_builder::CondBuilder};
+use serde::ser::Serialize;
+use serde_derive::Serialize;
+use crate::{query};
 
 #[derive(Debug, Default)]
 pub struct DataGrid<M: Model + Serialize> { 
@@ -39,16 +41,14 @@ pub struct OSSResult<'a> {
 #[macro_export]
 macro_rules! get_fields {
     ($struct: ident, [$($field: ident => $type: ident,)+]) => {
-        
         /// 得到所有列表字段
         fn get_fields() -> &'static str { 
             concat!("id", $(",", stringify!($field)),+)
         }
-    
         /// 得到单条记录
-        fn get_record(r: DbRow) -> Self { 
+        fn get_record(r: crate::data::DbRow) -> Self { 
             let mut row = Self::default();
-            let (id, $($field),+): (usize, $($type),+) = from_row!(r);
+            let (id, $($field),+): (usize, $($type),+) = crate::from_row!(r);
             row.id = id;
             $(row.$field = $field;)+
             row
