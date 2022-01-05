@@ -5,29 +5,30 @@ extern crate serde_json;
 
 use actix_files::Files;
 use actix_session::CookieSession;
+use actix_web::{middleware, web, App, Error, HttpRequest, HttpResponse, HttpServer};
 use std::time::{Duration, Instant};
-use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer, middleware};
 
-
-mod config;
-mod common;
 mod caches;
-mod models;
+mod common;
+mod config;
 mod controllers;
-mod validations;
 mod filters;
+mod models;
+mod validations;
 #[macro_use]
 mod utils;
 #[macro_use]
 mod data;
 
-use controllers::{index::Index,admins::Admins,admin_roles::AdminRoles,ads::Ads,menus::Menus,
-navs::Navs,user_levels::UserLevels,users::Users,videos::Videos,video_authors::VideoAuthors,
-video_categories::VideoCategories,video_replies::VideoReplies,video_tags::VideoTags,watch_records::WatchRecords,
+use controllers::{
+    admin_roles::AdminRoles, admins::Admins, ads::Ads, index::Index, menus::Menus, navs::Navs,
+    user_levels::UserLevels, users::Users, video_authors::VideoAuthors,
+    video_categories::VideoCategories, video_replies::VideoReplies, video_tags::VideoTags,
+    videos::Videos,configs::Configs, watch_records::WatchRecords,Controller,
 };
 
 #[actix_web::main]
-async fn main()-> std::io::Result<()> {
+async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=info"); //正式环境可以注释此行 ***
     env_logger::init(); //正式环境可以注释此行 ***
 
@@ -49,15 +50,15 @@ async fn main()-> std::io::Result<()> {
         tpl.register_filter("author_name", filters::video_authors::author_name);
 
         App::new()
-        .data(tpl)
-        .wrap(CookieSession::signed(&[0; 32]).secure(false))
-        .wrap(middleware::Logger::default())
-        .service(Files::new("/static", "public/static/"))
-        .service(Files::new("/upload", "public/upload/"))
-        .service(get!("/test",Index::test))
-        .service(get!("/",Index::index))
-        .service(post!("/index/login", Index::login))
-        .service(get!("/index/manage", Index::manage))
+            .data(tpl)
+            .wrap(CookieSession::signed(&[0; 32]).secure(false))
+            .wrap(middleware::Logger::default())
+            .service(Files::new("/static", "public/static/"))
+            .service(Files::new("/upload", "public/upload/"))
+            .service(get!("/test", Index::test))
+            .service(get!("/", Index::index))
+            .service(post!("/index/login", Index::login))
+            .service(get!("/index/manage", Index::manage))
             .service(get!("/index/right", Index::right))
             .service(get!("/index/error", Index::error))
             .service(get!("/index/logout", Index::logout))
@@ -136,7 +137,6 @@ async fn main()-> std::io::Result<()> {
             //网站设置
             .service(get!("/configs/edit/{id}", Configs::edit))
             .service(post!("/configs/save/{id}", Configs::save))
-
     })
     .bind(host_port)?
     .run()

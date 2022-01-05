@@ -252,6 +252,7 @@ pub mod index;
 pub mod admin_roles;
 pub mod admins;
 pub mod ads;
+pub mod configs;
 pub mod menus;
 pub mod navs;
 pub mod user_levels;
