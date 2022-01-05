@@ -90,10 +90,7 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/video_categories", VideoCategories::index))
             .service(get!("/video_categories/edit/{id}", VideoCategories::edit))
             .service(post!("/video_categories/save/{id}", VideoCategories::save))
-            .service(get!(
-                "/video_categories/delete/{ids}",
-                VideoCategories::delete
-            ))
+            .service(get!("/video_categories/delete/{ids}",VideoCategories::delete))
             //视频管理
             .service(get!("/videos", Videos::index))
             .service(get!("/videos/edit/{id}", Videos::edit))
