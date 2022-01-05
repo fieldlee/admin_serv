@@ -12,7 +12,6 @@ use crate::{tmpl_data,render,query,cond};
 use percent_encoding::{percent_decode};
 
 pub trait Controller { 
-    
     /// 模型
     type M: ModelBackend + Default + Serialize + Debug;
     

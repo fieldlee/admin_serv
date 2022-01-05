@@ -1,5 +1,5 @@
 use crate::models::AdminRoles as ThisModel;
-use super::Controller;
+use crate::controllers::Controller;
 use crate::models::Menus;
 use crate::caches::admin_roles;
 

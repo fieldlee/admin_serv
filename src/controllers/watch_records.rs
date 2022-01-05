@@ -1,5 +1,5 @@
 use crate::models::WatchRecords as ThisModel;
-use super::Controller;
+use crate::controllers::Controller;
 
 pub struct WatchRecords { }
 
