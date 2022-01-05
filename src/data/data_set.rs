@@ -7,7 +7,6 @@ pub struct DataSet<'a> {
 }
 
 impl<'a> DataSet<'a> { 
-
     /// 生成數據
     pub fn create() -> Self { 
         Self { 
@@ -96,7 +95,7 @@ impl<'a> Display for DataSet<'a> {
 macro_rules! create_row { 
     [$($key: expr => $val: expr,)+] => (
         {
-            let mut data = crate::db::data_set::DataSet::create();
+            let mut data = crate::data::data_set::DataSet::create();
             $(data.set($key, &$val);)+
             data
         }
@@ -108,7 +107,7 @@ macro_rules! create_row {
 macro_rules! update_row { 
     [$($key: expr => $val: expr,)*] => (
         {
-            let mut data = crate::db::data_set::DataSet::update();
+            let mut data = crate::data::data_set::DataSet::update();
             $(data.set($key, &$val);)*
             data
         }

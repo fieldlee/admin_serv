@@ -53,6 +53,7 @@ async fn main()-> std::io::Result<()> {
         .service(Files::new("/upload", "public/upload/"))
         .service(get!("/test",Index::test))
         .service(get!("/",Index::index))
+        .service(post!("/index/login", Index::login))
 
     })
     .bind(host_port)?

@@ -7,3 +7,4 @@ pub mod routers;
 pub mod tmpl;
 pub mod datetime;
 pub mod request;
+pub mod response;

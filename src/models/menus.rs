@@ -1,4 +1,4 @@
-use crate::data::{DbRow, model::Model, db,};
+use crate::data::{model::Model,db};
 use super::ModelBackend;
 use serde_derive::{Serialize};
 use crate::validations::Validator;
