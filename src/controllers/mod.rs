@@ -250,4 +250,17 @@ pub trait Controller {
 }
 
 pub mod index;
+pub mod admin_roles;
+pub mod admins;
+pub mod ads;
+pub mod menus;
+pub mod navs;
+pub mod user_levels;
+pub mod users;
+pub mod video_authors;
+pub mod video_categories;
+pub mod video_replies;
+pub mod video_tags;
+pub mod videos;
+pub mod watch_records;
 
