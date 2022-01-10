@@ -65,6 +65,7 @@ impl Index {
         if let Some(row) = Admins::fetch_row(&mut conn, &query, Some(&cond)) { 
             let (id, password, secret, login_count, role_id): (usize, String, String, usize, usize) = from_row!(row);
             let password_enc = com_fun::get_password(password_ori, &secret);
+            println!("============password:{}",password_enc);
             if password_enc != password {  //对比加密之后的密码是否一致
                 session.set::<usize>("failure_count", failure_count + 1).unwrap();
                 return response::error("用户名称或密码错误");

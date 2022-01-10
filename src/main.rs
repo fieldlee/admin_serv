@@ -5,8 +5,8 @@ extern crate serde_json;
 
 use actix_files::Files;
 use actix_session::CookieSession;
-use actix_web::{middleware, web, App, Error, HttpRequest, HttpResponse, HttpServer};
-use std::time::{Duration, Instant};
+use actix_web::{middleware, App,HttpServer};
+
 
 mod caches;
 mod common;
