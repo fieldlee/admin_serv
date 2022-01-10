@@ -19,19 +19,19 @@ pub trait Model {
     }
 
     // 獲取所有記錄
-    //fn find_all<P: GenericConnection>(pool: &mut P, query: &QueryBuilder, cond: Option<&CondBuilder>) -> Vec<M> {
+    // fn find_all<P: Queryable>(pool: &mut P, query: &QueryBuilder, cond: Option<&CondBuilder>) -> Vec<M> {
     //    let sql = query.build_query(Self::get_table_name(), cond);
-    //    let rows: Vec<M> = pool.prep_exec(sql, ())
+    //    let rows: Vec<> = pool.query_first(sql)
     //        .map(|result| {
     //            result.map(|r| r.unwrap())
     //            .map(|r| { 
-    //                let mut m: M = Default::default();
+    //                let mut m = Default::default();
     //                Self::process_row(r, &mut m);
     //                m
     //            }).collect()
     //        }).unwrap();
     //    rows
-    //}
+    // }
     
     /// 得到分頁信息
     fn get_pager<P: Queryable>(pool: &mut P, query: &QueryBuilder, cond: Option<&CondBuilder>) -> Pager { 

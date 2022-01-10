@@ -5,7 +5,7 @@ extern crate serde_json;
 
 use actix_files::Files;
 use actix_session::CookieSession;
-use actix_web::{middleware, App,HttpServer};
+use actix_web::{middleware, App,HttpServer,web};
 
 
 mod caches;
@@ -19,6 +19,7 @@ mod validations;
 mod utils;
 #[macro_use]
 mod data;
+mod websocket;
 
 use controllers::{
     admin_roles::AdminRoles, admins::Admins, ads::Ads, index::Index, menus::Menus, navs::Navs,
@@ -27,7 +28,7 @@ use controllers::{
     videos::Videos,configs::Configs, watch_records::WatchRecords,Controller,
 };
 
-#[actix_web::main]
+#[actix_rt::main]
 async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=info"); //正式环境可以注释此行 ***
     env_logger::init(); //正式环境可以注释此行 ***
@@ -38,6 +39,8 @@ async fn main() -> std::io::Result<()> {
     data::db::init_connections(&conn_string); //初始化
     let host_port = &format!("{}:{}", &info.host, &info.port); //地址/端口
     println!("Started At: {}", host_port);
+
+    websocket::ws_run();
 
     HttpServer::new(move || {
         let mut tpl = tmpl!("/templates/**/*"); //模板引擎
@@ -134,6 +137,7 @@ async fn main() -> std::io::Result<()> {
             //网站设置
             .service(get!("/configs/edit/{id}", Configs::edit))
             .service(post!("/configs/save/{id}", Configs::save))
+            .service(web::resource("/ws/").to(websocket::chat_route))
     })
     .bind(host_port)?
     .run()
